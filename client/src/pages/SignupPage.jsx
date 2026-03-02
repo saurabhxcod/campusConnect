@@ -2,6 +2,7 @@ import { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
+import api from '../services/api';
 import { AuthContext } from '../context/AuthContext';
 import { Github, Mail, Lock, User as UserIcon, Shield, AlertCircle, BookOpen, Crown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -32,7 +33,7 @@ const SignupPage = () => {
     try {
       setIsLoading(true);
       setError('');
-      const response = await axios.post('http://localhost:5000/api/auth/register', data);
+      const response = await api.post('/auth/register', data);
       
       login(response.data, response.data.token);
       
@@ -53,11 +54,11 @@ const SignupPage = () => {
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = 'http://localhost:5000/api/auth/google';
+    window.location.href = `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/auth/google`;
   };
 
   const handleGithubLogin = () => {
-    window.location.href = 'http://localhost:5000/api/auth/github';
+    window.location.href = `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/auth/github`;
   };
 
   return (

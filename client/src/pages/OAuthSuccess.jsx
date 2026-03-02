@@ -2,6 +2,7 @@ import { useEffect, useContext } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import axios from 'axios';
+import api from '../services/api';
 
 const OAuthSuccess = () => {
   const [searchParams] = useSearchParams();
@@ -20,7 +21,7 @@ const OAuthSuccess = () => {
               Authorization: `Bearer ${token}`,
             },
           };
-          const { data } = await axios.get('http://localhost:5000/api/users/me', config);
+          const { data } = await api.get('/users/me', config);
           login(data, token);
           
           if (data.role === 'admin') {
