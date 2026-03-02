@@ -13,7 +13,7 @@ export const NotificationProvider = ({ children }) => {
   const fetchNotifications = async () => {
     if (!user) return;
     try {
-      const res = await api.get('/api/notifications');
+      const res = await api.get('/notifications');
       setNotifications(res.data.notifications);
       setUnreadCount(res.data.unreadCount);
     } catch (err) {
@@ -23,7 +23,7 @@ export const NotificationProvider = ({ children }) => {
 
   const markAsRead = async (notificationId = null) => {
     try {
-      await api.put('/api/notifications/read', { notificationId });
+      await api.put('/notifications/read', { notificationId });
       fetchNotifications(); // Refresh list after marking
     } catch (err) {
       console.error('Error marking notifications read:', err);

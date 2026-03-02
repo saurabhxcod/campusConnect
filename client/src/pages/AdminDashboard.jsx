@@ -87,14 +87,14 @@ const AdminDashboard = () => {
       if (bannerFile) {
         const formData = new FormData();
         formData.append('image', bannerFile);
-        const { data } = await api.post('/api/upload/image', formData);
+        const { data } = await api.post('/upload/image', formData);
         bannerUrl = data.imageUrl;
       }
 
       if (thumbnailFile) {
         const formData = new FormData();
         formData.append('image', thumbnailFile);
-        const { data } = await api.post('/api/upload/image', formData);
+        const { data } = await api.post('/upload/image', formData);
         thumbnailUrl = data.imageUrl;
       }
 
@@ -123,7 +123,7 @@ const AdminDashboard = () => {
       if (coverImageFile) {
         const formData = new FormData();
         formData.append('image', coverImageFile);
-        const { data } = await api.post('/api/upload/image', formData);
+        const { data } = await api.post('/upload/image', formData);
         coverImageUrl = data.imageUrl;
       }
 

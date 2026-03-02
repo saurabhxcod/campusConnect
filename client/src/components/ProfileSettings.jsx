@@ -41,7 +41,7 @@ const ProfileSettings = () => {
         formData.append('profileImage', profileImage);
       }
 
-      const { data } = await api.put('/api/users/update', formData, {
+      const { data } = await api.put('/users/update', formData, {
         headers: { 
           'Content-Type': 'multipart/form-data'
         }

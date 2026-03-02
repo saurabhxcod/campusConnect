@@ -54,11 +54,15 @@ const SignupPage = () => {
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/auth/google`;
+    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+    const apiUrl = baseUrl.endsWith('/api') ? baseUrl : `${baseUrl}/api`;
+    window.location.href = `${apiUrl}/auth/google`;
   };
 
   const handleGithubLogin = () => {
-    window.location.href = `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/auth/github`;
+    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+    const apiUrl = baseUrl.endsWith('/api') ? baseUrl : `${baseUrl}/api`;
+    window.location.href = `${apiUrl}/auth/github`;
   };
 
   return (
