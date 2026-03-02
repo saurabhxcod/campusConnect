@@ -14,7 +14,7 @@ export const useDashboardStats = (role) => {
   return useQuery({
     queryKey: ['stats', role],
     queryFn: async () => {
-      const { data } = await api.get('/stats/${role}');
+      const { data } = await api.get(`/stats/${role}`);
       return data;
     },
     retry: 1,

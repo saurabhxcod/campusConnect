@@ -29,14 +29,16 @@ app.use(express.json());
 const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:3000',
+  'https://campus-connect-3a3t.vercel.app',
   process.env.CLIENT_URL
 ].filter(Boolean);
 
 app.use(cors({
   origin: (origin, callback) => {
     // Check if the origin is in our whitelist or matches Vercel domains
-    const isAllowed = !origin || 
-                      allowedOrigins.includes(origin) || 
+    if (!origin) return callback(null, true);
+    
+    const isAllowed = allowedOrigins.includes(origin) || 
                       origin.endsWith('.vercel.app') ||
                       /localhost:\d+$/.test(origin);
     
@@ -44,7 +46,7 @@ app.use(cors({
       callback(null, true);
     } else {
       console.log('CORS blocked origin:', origin);
-      callback(null, false); // Return false instead of an Error to handle it gracefully
+      callback(new Error('Not allowed by CORS'));
     }
   },
   credentials: true,
