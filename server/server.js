@@ -12,7 +12,12 @@ const { errorHandler } = require('./middleware/errorMiddleware');
 dotenv.config();
 
 // Connect to database
-connectDB();
+connectDB().catch(err => {
+  console.error('CRITICAL: Database connection failed during startup!');
+  console.error('Error Details:', err.message);
+  // We exit with 1 so Vercel knows the container/function is unhealthy
+  process.exit(1);
+});
 
 const app = express();
 
