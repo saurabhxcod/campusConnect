@@ -54,7 +54,6 @@ app.use(cors({
 }));
 
 // Handle preflight explicitly if needed (standard for some Vercel setups)
-app.options('*', cors());
 app.use(passport.initialize());
 
 // Health Check Route
