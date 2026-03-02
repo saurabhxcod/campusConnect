@@ -22,28 +22,34 @@ const passport = require('./config/passport');
 app.use(express.json());
 // CORS Configuration
 const allowedOrigins = [
-  process.env.CLIENT_URL,
   'http://localhost:5173',
-  'http://localhost:3000'
+  'http://localhost:3000',
+  process.env.CLIENT_URL
 ].filter(Boolean);
 
 app.use(cors({
-  origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl requests)
-    if (!origin) return callback(null, true);
+  origin: (origin, callback) => {
+    // Check if the origin is in our whitelist or matches Vercel domains
+    const isAllowed = !origin || 
+                      allowedOrigins.includes(origin) || 
+                      origin.endsWith('.vercel.app') ||
+                      /localhost:\d+$/.test(origin);
     
-    if (allowedOrigins.indexOf(origin) !== -1 || 
-        origin.endsWith('.vercel.app') || 
-        origin.includes('localhost')) {
+    if (isAllowed) {
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      console.log('CORS blocked origin:', origin);
+      callback(null, false); // Return false instead of an Error to handle it gracefully
     }
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+  exposedHeaders: ['Set-Cookie']
 }));
+
+// Handle preflight explicitly if needed (standard for some Vercel setups)
+app.options('*', cors());
 app.use(passport.initialize());
 
 // Health Check Route
